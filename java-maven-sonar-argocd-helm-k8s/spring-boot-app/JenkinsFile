@@ -31,15 +31,15 @@ pipeline {
     }
 stage('Build and Push Docker Image') {
     environment {
-        DOCKER_IMAGE = "camilacarolina/ultimate-cicd:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "paiva4546/ultimate-cicd:${BUILD_NUMBER}"
     }
     steps {
         script {
             sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
 
             // Recupera o token do Jenkins Credentials
-            withCredentials([string(credentialsId: 'docker', variable: 'DOCKER_TOKEN')]) {
-                sh 'echo $DOCKER_TOKEN | docker login -u seu-usuario-docker --password-stdin'
+            withCredentials([string(credentialsId: 'docker-token', variable: 'DOCKER_TOKEN')]) {
+                sh 'echo $DOCKER_TOKEN | docker login -u paiva4546 --password-stdin'
 
                 def dockerImage = docker.image("${DOCKER_IMAGE}")
                 dockerImage.push()
