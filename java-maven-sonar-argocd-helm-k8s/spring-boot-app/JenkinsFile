@@ -38,7 +38,7 @@ stage('Build and Push Docker Image') {
             sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
 
             // Recupera o token do Jenkins Credentials
-            withCredentials([string(credentialsId: 'docker-token', variable: 'DOCKER_TOKEN')]) {
+            withCredentials([string(credentialsId: 'docker', variable: 'DOCKER_TOKEN')]) {
                 sh 'echo $DOCKER_TOKEN | docker login -u paiva4546 --password-stdin'
 
                 def dockerImage = docker.image("${DOCKER_IMAGE}")
